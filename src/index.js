@@ -59,6 +59,10 @@ app.use('/api/', users);
 app.use('/api/', stories);
 app.use('/api/', contributions);
 
+app.use('/', (req, res,next) => {
+  res.send('Welcome to Storyboard API');
+})
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
