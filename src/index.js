@@ -3,9 +3,25 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const options = { 
+  server: { 
+    socketOptions: { 
+      keepAlive: 300000, connectTimeoutMS: 30000 
+    } 
+  }, 
+  replset: { 
+    socketOptions: { 
+      keepAlive: 300000, 
+      connectTimeoutMS : 30000 
+    } 
+  },
+  useNewUrlParser: true,
+  useUnifiedTopology: true 
+};
+
 // Connects to the database
 mongoose
-  .connect(process.env.DB, { useNewUrlParser: true })
+  .connect(process.env.DB, options)
   .then(() => console.log(`Database connected successfully`))
   .catch((err) => console.log(err));
 
