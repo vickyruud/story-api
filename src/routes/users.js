@@ -10,6 +10,8 @@ const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 // Load User model
 const User = require("../models/user");
+const passport = require("passport");
+
 
 // @route POST api/users/register
 // @desc Register user
@@ -78,12 +80,7 @@ router.post("/login", (req, res) => {
           },
           (err, token) => {
             res.json({
-              success: true,
-              user: {
-                id: user._id,
-                username: user.username,
-                email: user.email
-              },
+              success: true,            
               token: token,
             });
           }
@@ -97,6 +94,7 @@ router.post("/login", (req, res) => {
   });
 });
 
+
 router.get('/users', (req, res, next) => {
   User.find({})
     .then((data) => res.json(data))
@@ -109,6 +107,13 @@ router.delete('/users/:id', (req, res, next) => {
     .then((data) => res.json(data))
     .catch(next);
 });
+
+router.get("/auto-login", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+  res.send({
+              success: true,
+              user: req.user,              
+            });
+})
 
 
 module.exports = router;

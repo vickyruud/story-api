@@ -17,7 +17,6 @@ router.post('/stories', (req, res, next) => {
       .then((data) => res.json(data))
       .catch(next);
   } else {
-  console.log('here');
 
     res.json({
       error: 'The input field is empty',
@@ -30,7 +29,6 @@ router.post('/stories/:id', (req, res, next) => {
   const updatedStory = req.body
 
    if (req.body) {
-     console.log('here');
     Story.findByIdAndUpdate({_id:req.params.id}, updatedStory)
       .then((data) => res.json(data))
       .catch(next);
