@@ -2,7 +2,7 @@ const axios = require("axios");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const { describe } = require("mocha");
-const app = require("../index");
+const app = require("../src/index");
 const expect = chai.expect
 
 

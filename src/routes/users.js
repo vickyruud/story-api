@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
 const keys = process.env.SECRET;
 // Load input validation
@@ -12,11 +12,11 @@ const validateLoginInput = require("../validation/login");
 const User = require("../models/user");
 const passport = require("passport");
 
-
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post("/register", (req, res) => {
+  console.log(req.body);
   // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
@@ -39,7 +39,28 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then((user) => res.json(user))
+            .then((user) => {
+              // Create JWT Payload
+              const payload = {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+              };
+              // Sign token
+              jwt.sign(
+                payload,
+                keys,
+                {
+                  expiresIn: 31556926, // 1 year in seconds
+                },
+                (err, token) => {
+                  res.json({
+                    success: true,
+                    token: token,
+                  });
+                }
+              );
+            })
             .catch((err) => console.log(err));
         });
       });
@@ -70,6 +91,7 @@ router.post("/login", (req, res) => {
         const payload = {
           id: user.id,
           username: user.username,
+          email: user.email,
         };
         // Sign token
         jwt.sign(
@@ -80,7 +102,7 @@ router.post("/login", (req, res) => {
           },
           (err, token) => {
             res.json({
-              success: true,            
+              success: true,
               token: token,
             });
           }
@@ -94,26 +116,27 @@ router.post("/login", (req, res) => {
   });
 });
 
-
-router.get('/users', (req, res, next) => {
+router.get("/users", (req, res, next) => {
   User.find({})
     .then((data) => res.json(data))
     .catch(next);
 });
 
-
-router.delete('/users/:id', (req, res, next) => {
-    User.findOneAndDelete({ _id: req.params.id })
+router.delete("/users/:id", (req, res, next) => {
+  User.findOneAndDelete({ _id: req.params.id })
     .then((data) => res.json(data))
     .catch(next);
 });
 
-router.get("/auto-login", passport.authenticate("jwt", { session: false }), (req, res, next) => {
-  res.send({
-              success: true,
-              user: req.user,              
-            });
-})
-
+router.get(
+  "/auto-login",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    res.send({
+      success: true,
+      user: req.user,
+    });
+  }
+);
 
 module.exports = router;

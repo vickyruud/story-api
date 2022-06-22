@@ -2,7 +2,7 @@ const axios = require("axios");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const { describe } = require("mocha");
-const app = require("../index");
+const app = require("../src/index");
 const expect = chai.expect
 
 
@@ -20,7 +20,7 @@ describe("Get all users", () => {
     });
   });
 
-  it("should add a new user", (done) => {
+  xit("should add a new user", (done) => {
 
     const testUser = {
       username: 'slow',
@@ -35,7 +35,23 @@ describe("Get all users", () => {
         expect(err).to.be.null;
         done();
       })
-  })
+  });
+  it("should login an existing user when credentials match", (done) => {
+    const testUser = {
+      username: "luna",
+      password:"123456"
+      }  
+
+    chai.request(app)
+      .post("/api/login", testUser)
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.text).to.not.be.null;
+        done();
+    });
+  });
+
 
 
 });
