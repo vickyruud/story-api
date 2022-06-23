@@ -40,7 +40,7 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then((user) => {
-              // Create JWT Payload
+              // Creates JWT Payload
               const payload = {
                 id: user.id,
                 username: user.username,
