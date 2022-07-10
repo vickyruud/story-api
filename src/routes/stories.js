@@ -29,9 +29,10 @@ router.post('/stories', (req, res, next) => {
 router.post('/stories/:id', (req, res, next) => {
 
   const updatedStory = req.body
+  console.log(updatedStory);
 
    if (req.body) {
-    Story.findByIdAndUpdate({_id:req.params.id}, updatedStory)
+    Story.findByIdAndUpdate({_id:updatedStory._id}, updatedStory)
       .then((data) => res.json(data))
       .catch(next);
   } else {
@@ -41,6 +42,8 @@ router.post('/stories/:id', (req, res, next) => {
     });
   }
 })
+
+
 
 router.delete('/stories/:id', (req, res, next) => {
     Story.findOneAndDelete({ _id: req.params.id })
