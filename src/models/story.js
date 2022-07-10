@@ -22,6 +22,13 @@ const StorySchema = new Schema(
     },
     votes: {
       type: Number,
+      default: 0
+    },
+      usersUpVoted: {
+      type: Array,
+    },
+        usersDownVoted: {
+      type: Array,
     },
   },
   { timestamps: true }

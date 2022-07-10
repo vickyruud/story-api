@@ -30,7 +30,6 @@ router.post('/stories/:id', (req, res, next) => {
 
   const updatedStory = req.body
   console.log(updatedStory);
-
    if (req.body) {
     Story.findByIdAndUpdate({_id:updatedStory._id}, updatedStory)
       .then((data) => res.json(data))
