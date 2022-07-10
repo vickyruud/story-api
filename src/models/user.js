@@ -15,6 +15,14 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "The password field is required"],
   },
+  first_name: {
+    type: String,
+    required: [true, "The first name field is required"],
+  },
+  last_name: {
+    type: String,
+    required: [true, "The last name field is required"],
+  },
 }, {timestamps: true});
 
 // Create model for todo

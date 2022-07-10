@@ -4,8 +4,10 @@ require('dotenv').config();
 
 // Load Story model
 const Story = require("../models/story");
+const User = require("../models/user");
 
 router.get('/stories', (req, res, next) => {
+
   Story.find({})
     .then((data) => res.json(data))
     .catch(next);
