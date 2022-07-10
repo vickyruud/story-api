@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const morgan = require('morgan')
 require("dotenv").config();
 
 const options = {
@@ -26,6 +27,9 @@ const passport = require("passport");
 const app = express();
 
 const port = process.env.PORT || 5000;
+
+//Morgan
+app.use(morgan('tiny'));
 
 // Passport middleware
 app.use(passport.initialize());
