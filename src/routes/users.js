@@ -47,6 +47,8 @@ router.post("/register", (req, res) => {
                 id: user.id,
                 username: user.username,
                 email: user.email,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
               };
               // Sign token
               jwt.sign(
@@ -94,6 +96,8 @@ router.post("/login", (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
         };
         // Sign token
         jwt.sign(
