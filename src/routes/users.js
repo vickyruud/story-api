@@ -90,7 +90,7 @@ router.post("/login", (req, res) => {
     // Check password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-        // User matched
+        // User located
         // Create JWT Payload
         const payload = {
           id: user.id,
